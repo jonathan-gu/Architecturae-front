@@ -58,7 +58,7 @@ const Register = () => {
                 sessionStorage.setItem("dateConnection", new Date())
                 navigate("/verifyEmail")
             } else {
-                console.log('Registration failed:', response.statusText);
+                console.error('Registration failed:', response.statusText);
             }
         } catch (error) {
             console.error('Error during registration:', error);
