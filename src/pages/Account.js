@@ -18,24 +18,54 @@ const Account = () => {
     const [siretNumber, setSiretNumber] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    
+    const [user, setUser] = useState("")
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        var user = sessionStorage.getItem("user")
+        var user = JSON.parse(sessionStorage.getItem("user"))
+        setUser(user)
         if (user === null) {
             navigate("/login")
         }
-    })
+        else {
+            if (user.email_verified_at === undefined) {
+                navigate("/verifyEmail")
+            }
+        }
+    }, [])
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
     }
 
-    const handleOnClick = (action) => (e) => {
+    const handleOnClick = (action) => async (e) => {
         e.preventDefault()
+        const token = sessionStorage.getItem("token")
         if (action === "delete") {
+            try {
 
+                const response = await fetch(`http://127.0.0.1:8000/api/users/${user.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                if (response.status === 200) {
+                    const responseData = await response.json();
+                    sessionStorage.removeItem("user")
+                    sessionStorage.removeItem("dateConnection")
+                    sessionStorage.removeItem("token")
+                    navigate("/login")
+                } else {
+                    console.error('Logout failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+            }
             Swal.fire(
                 'Votre compte à bien été supprimé',
                 '',
@@ -44,6 +74,40 @@ const Account = () => {
             navigate("/")
         }
         else {
+            const formData = {
+                first_name: firstName,
+                name: lastName,
+                email: email,
+                phone_number: phoneNumber,
+                address: address,
+                city: city,
+                postal_code: zip,
+                siret_number: siretNumber,
+                password: password,
+                password_confirmation: confirmPassword,
+                available_space: 0,
+            };
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/users/${user.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                if (response.status === 200) {
+                    const responseData = await response.json();
+                    sessionStorage.removeItem("user")
+                    sessionStorage.removeItem("dateConnection")
+                    sessionStorage.removeItem("token")
+                    navigate("/login")
+                } else {
+                    console.error('Logout failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+            }
             Swal.fire(
                 'Votre compte à bien été modifié',
                 '',

@@ -13,11 +13,16 @@ const Login = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        var user = sessionStorage.getItem("user")
+        var user = JSON.parse(sessionStorage.getItem("user"))
         if (user !== null) {
-            navigate("/home")
+            if (user.email_verified_at === undefined) {
+                navigate("/verifyEmail")
+            }
+            else {
+                navigate("/home")
+            }
         }
-    })
+    }, [])
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()

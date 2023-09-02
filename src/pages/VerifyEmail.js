@@ -7,11 +7,16 @@ const VerifyEmail = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        var user = sessionStorage.getItem("user")
+        var user = JSON.parse(sessionStorage.getItem("user"))
         if (user === null) {
             navigate("/login")
         }
-    })
+        else {
+            if (user.email_verified_at !== undefined) {
+                navigate("/home")
+            }
+        }
+    }, [])
 
 
     return (
