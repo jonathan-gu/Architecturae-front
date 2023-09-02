@@ -1,0 +1,32 @@
+.file {
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 11px 27px 0 #00000050;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    height: 65px;
+    margin: 30px 0;
+    padding-left: 30px;
+    width: 100%;
+}
+
+.file p {
+    max-width: calc(100vw - 220px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file img {
+    height: 20px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 769px) {
+    .file p {
+        max-width: calc(100vw - 550px);
+    }
+}

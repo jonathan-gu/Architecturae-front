@@ -1,0 +1,37 @@
+a {
+    text-decoration: none;
+}
+
+.menu-item {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    padding: 25px 0 0 20px;
+}
+
+.menu-item p {
+    color: #000000;
+    font-size: 14px;
+}
+
+.menu-item img {
+    height: 20px;
+}
+
+@media screen and (min-width: 481px) {
+    .menu-item p {
+        font-size: 18px;
+        padding: 0 10px;
+    }
+
+
+    .menu-item img {
+        height: 30px;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .menu-item p {
+        font-size: 14px;
+    }
+}
