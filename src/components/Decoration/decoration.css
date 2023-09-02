@@ -1,0 +1,37 @@
+.decoration {
+    display: none;
+}
+
+.decoration .top-image img, .decoration .bottom-image img {
+    box-shadow: 0 11px 27px 0 #00000050;
+    height: 131.25px;
+    width: 300px;
+}
+
+.decoration .top-image img {
+    border-radius: 230px 230px 0 0;
+}
+
+.decoration .bottom-image img {
+    border-radius: 0 0 230px 230px;
+}
+
+@media screen and (min-width: 769px) {
+    .decoration {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .decoration .top-image img, .decoration .bottom-image img {
+        height: 175px;
+        width: 400px;
+    }
+}
+
+@media screen and (min-width: 1201px) {
+    .decoration .top-image img, .decoration .bottom-image img {
+        height: 218.75px;
+        width: 500px;
+    }
+}

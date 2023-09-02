@@ -1,0 +1,387 @@
+body, h1, p {
+    font-family: 'Roboto';
+    margin: 0;
+}
+
+#section-form {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: space-around;
+    min-height: 410px;
+}
+
+form {
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 11px 27px 0 #00000050;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#section-form form h1, #section-form form button {
+    text-align: center;
+} 
+
+#section-form form h1 {
+    font-size: 25px;
+    margin: 10px;
+}
+
+#section-form .basic {
+    background-color: #00A0A8;
+    border: none;
+    border-radius: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    height: 30px;
+    margin-top: 20px;
+    width: 120px;
+}
+
+#section-form form #fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 70px;
+}
+
+#section-form form .bottom-form {
+    align-items: center;
+    border-top: 1px solid #00000020;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 20px 0;
+    width: 100%;
+}
+
+#section-form form .bottom-form p, #section-form form .bottom-form p a {
+    color: #777777;
+    font-size: 14px;
+}
+
+#section-form form .bottom-form p a {
+    border-bottom: 1px solid #777777;
+    text-decoration: none;
+}
+
+#section-form p {
+    padding-top: 20px;
+    text-align: center;
+}
+
+#section-form #buttons {
+    display: flex;
+    margin: 40px 0 50px;
+}
+
+#section-form #buttons button {
+    border: none;
+    border-radius: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 20px;
+    padding: 10px 40px;
+}
+
+#section-form #buttons .good {
+    background-color: #0FA958;
+}
+
+#section-form #buttons .bad {
+    background-color: #D7242F;
+}
+
+#section-main {
+    background-color: #EAF5F5;
+    height: 100%;
+    min-height: calc(100vh - 69.2px);
+    position: relative;
+}
+
+#section-main #menu-mobile {
+    align-items: self-start;
+    background-color: #FFFFFF;
+    box-shadow: 0 11px 27px 0 #00000050;
+    display: flex;
+    justify-content: center;
+    top: 60.4px;
+    padding: 0 0 15px;
+    position: fixed;
+    width: 100%;
+}
+
+#section-main #menu-mobile .spaces {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#section-main #menu-mobile .space {
+    font-size: 14px;
+    padding-top: 5px
+}
+
+#section-main #menu {
+    display: none;
+}
+
+#section-main #main {
+    padding: 180px 10px 75px;
+}
+
+#section-main #title {
+    display: flex;
+    flex-direction: column;
+}
+
+#title input {
+    border: 1px solid #00000020;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-top: 10px;
+    outline: none;
+    padding: 5px;
+    width: 150px;
+}
+
+#section-main #first-title {
+    margin: -30px 0 0;
+}
+
+#section-main form {
+    margin: 20px 0;
+    padding-top: 10px;
+    width: 280px;
+}
+
+#section-main #buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0 50px;
+    width: 100%;
+}
+
+#section-main #buttons button {
+    border: none;
+    border-radius: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 20px;
+    width: 120px;
+}
+
+#section-main form #buttons .basic {
+    background-color: #00A0A8;
+    color: #FFFFFF;
+}
+
+#section-main form #buttons .bad {
+    background-color: #D7242F;
+    color: #FFFFFF;
+}
+
+.space {
+    height: 20px;
+}
+
+#admin {
+    padding: 150px 40px 0 40px;
+}
+
+#not-found {
+    padding: 100px 20px 0;
+}
+
+.statistics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+#menu-admin {
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 11px 27px 0 #00000050;
+    display: flex;
+    justify-content: center;
+    top: 60.4px;
+    position: fixed;
+    width: 100%;
+}
+
+#menu-admin button {
+    background-color: #00A0A8;
+    border: none;
+    border-radius: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 30px;
+    margin: 20px 10px;
+    text-align: center;
+    width: 120px;
+}
+
+@media screen and (min-width: 481px) {
+    #section-form {
+        min-height: 442px;
+    }
+
+    form, #section-main form {
+        width: 400px;
+    }
+
+    #section-main form #buttons button {
+        width: 150px;
+    }
+
+    #section-form form h1 {
+        font-size: 35px;
+        margin: 20px;
+    }
+
+    #section-form #buttons button {
+        padding: 10px 50px;
+    }
+
+    #section-main #title {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #section-main #main {
+        padding: 180px 40px 75px;
+    }
+
+    #menu-admin {
+        top: 70px;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    #section-main #menu-mobile {
+        display: none;
+    }
+
+    #section-main #menu {
+        background-color: #FFFFFF;
+        border-radius: 0 0 10px 0;
+        bottom: 0;
+        box-shadow: 0 11px 27px 0 #00000050;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 70px;
+        width: 200px;
+    }
+
+    #section-main #menu .space {
+        padding-top: 25px;
+        text-align: center;
+    }
+
+    #section-main #main {
+        padding: 40px 75px 100px 300px;
+    }
+
+    #section-main #title {
+        margin-top: 80px;
+    }
+
+    #title input {
+        width: 200px;
+    }
+
+    #section-main #first-title {
+        margin: 60px 0 20px;
+    }
+
+    .not-first-title {
+        margin-top: 10px!important;
+    }
+
+    #admin {
+        padding: 100px 60px 0 60px;
+    }
+
+    #menu-admin {
+        display: none;
+    }
+}
+
+
+@media screen and (min-width: 1025px) {
+    #section-form form {
+        width: 500px;
+    }
+
+    #section-form form #fields {
+        min-height: 120px;
+        justify-content: center;
+    }
+
+    #section-form #buttons {
+        margin: 50px 0 80px;
+    }
+
+    #section-form #buttons button {
+        padding: 15px 60px;
+    }
+
+    #title input {
+        width: 300px;
+    }
+
+    #admin {
+        padding: 100px 80px 0 80px;
+    }
+}
+
+@media screen and (min-width: 1201px) {
+    #section-form form {
+        width: 600px;
+    }
+
+    #admin {
+        padding: 100px 100px 0 100px;
+    }
+}
+
+.duo {
+    display: flex;
+    justify-content: center;
+}
+
+.field {
+    margin: 5px 10px;
+}
+
+.field .label {
+    font-size: 12px;
+}
+
+.field input {
+    border: 1px solid #00000020;
+    border-radius: 10px;
+    height: 10px;
+    outline: none;
+    padding: 5px;
+    width: 100px;
+}
+
+@media screen and (min-width: 481px) {
+    .field {
+        margin: 5px 10px;
+    }
+
+    .field input {
+        width: 150px;
+    }
+}

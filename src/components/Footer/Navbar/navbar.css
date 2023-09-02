@@ -1,0 +1,104 @@
+nav {
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 11px 27px 0 #00000050;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    max-height: 73.6px;
+    padding: 15px 20px;
+    position: fixed;
+    width: 100vw;
+    z-index: 1;
+}
+
+.more {
+    border-bottom: 2px solid #00000020;
+    box-shadow: none;
+}
+
+nav h1 {
+    font-size: 25px;
+}
+
+nav img {
+    height: 25px;
+}
+
+nav button {
+    background-color: #00A0A8;
+    border: none;
+    border-radius: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 7px 14px;
+}
+
+#bloc-nav {
+    height: 120px;
+}
+
+nav #buttons {
+    display: none;
+}
+
+nav #buttons a, nav #buttons a button {
+    height: 45px;
+}
+
+nav #buttons button {
+    font-size: 12px;
+    margin: 0 10px;
+    width: 100px;
+}
+
+@media screen and (min-width: 481px) {
+    nav {
+        padding: 20px;
+    }
+    
+    nav h1 {
+        font-size: 28px;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    nav {
+        padding: 20px 65px;
+    }
+
+    nav img {
+        display: none;
+    }
+
+    nav #buttons {
+        display: flex;
+    }
+
+    .more {
+        border: none;
+        box-shadow: 0 11px 27px 0 #00000050;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    nav #buttons button {
+        font-size: 14px;
+        margin: 0 20px;
+        width: 120px;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    nav #buttons button {
+        font-size: 13px;
+        margin: 0 20px;
+        width: 120px;
+    }
+}
+
+@media screen and (min-width: 1201px) {
+    nav #buttons button {
+        margin: 0 30px;
+    }
+}
