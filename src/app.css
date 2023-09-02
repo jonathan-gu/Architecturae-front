@@ -195,7 +195,7 @@ form {
     padding: 150px 40px 0 40px;
 }
 
-#not-found {
+#not {
     padding: 100px 20px 0;
 }
 
@@ -313,6 +313,10 @@ form {
 
     #menu-admin {
         display: none;
+    }
+
+    #not {
+        padding-left: 65px;
     }
 }
 

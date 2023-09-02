@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Decoration from "../components/Decoration/Decoration";
@@ -32,10 +32,29 @@ const Register = () => {
             postal_code: zip,
             siret_number: siretNumber,
             password: password,
-            password_confirmation: confirmPassword,
-            available_space: 0,
-            role: "client"
+            password_confirmation: confirmPassword
         };
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            console.log(response)
+            if (response.status === 200) {
+                const responseData = await response.json();
+                console.log('Registration successful:', responseData);
+                navigate("/verifyEmail")
+            } else {
+                console.log('Registration failed:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error during registration:', error);
+        }
     }
 
     return (
