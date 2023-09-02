@@ -389,3 +389,7 @@ form {
         width: 150px;
     }
 }
+
+.logout {
+    cursor: pointer;
+}

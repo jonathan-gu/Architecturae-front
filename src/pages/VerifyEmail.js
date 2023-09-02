@@ -9,7 +9,7 @@ const VerifyEmail = () => {
     useEffect(() => {
         var user = sessionStorage.getItem("user")
         if (user === null) {
-            navigate("/")
+            navigate("/login")
         }
     })
 

@@ -20,10 +20,37 @@ const Register = () => {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
+    useEffect(async () => {
         var user = sessionStorage.getItem("user")
         if (user !== null) {
-            navigate("/verifyEmail")
+            //  try {
+            //     const response = await fetch('http://127.0.0.1:8000/api/user', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Accept': 'application/json'
+            //         },
+            //         body: JSON.stringify(formData)
+            //     });
+            //     if (response.status === 200) {
+            //         const responseData = await response.json();
+            //         sessionStorage.setItem("user", JSON.stringify(responseData.user))
+            //         sessionStorage.setItem("dateConnection", new Date())
+            //         navigate("/home")
+            //     } else {
+            //         console.error('Registration failed:', response.statusText);
+            //     }
+            // } catch (error) {
+            //     console.error('Error during registration:', error);
+            // }
+
+            // console.log(user.email_verified_at)
+            // if (user.email_verified_at === undefined) {
+            //     navigate("/verifyEmail")
+            // }
+            // else {
+            //     navigate("/home")
+            // }
         }
     })
 
@@ -54,9 +81,10 @@ const Register = () => {
             });
             if (response.status === 200) {
                 const responseData = await response.json();
+                sessionStorage.setItem("token", responseData.token)
                 sessionStorage.setItem("user", JSON.stringify(responseData.user))
                 sessionStorage.setItem("dateConnection", new Date())
-                navigate("/verifyEmail")
+                navigate("/home")
             } else {
                 console.error('Registration failed:', response.statusText);
             }

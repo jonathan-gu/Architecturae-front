@@ -15,7 +15,7 @@ const Login = () => {
     useEffect(() => {
         var user = sessionStorage.getItem("user")
         if (user !== null) {
-            navigate("/verifyEmail")
+            navigate("/home")
         }
     })
 
@@ -39,6 +39,7 @@ const Login = () => {
             console.log(response)
             if (response.status === 200) {
                 const responseData = await response.json();
+                sessionStorage.setItem("token", responseData.token)
                 sessionStorage.setItem("user", JSON.stringify(responseData.user))
                 sessionStorage.setItem("dateConnection", new Date())
                 navigate("/home")

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Swal from 'sweetalert2'
@@ -21,6 +21,13 @@ const Account = () => {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        var user = sessionStorage.getItem("user")
+        if (user === null) {
+            navigate("/login")
+        }
+    })
+
     const handleOnSubmit = (e) => {
         e.preventDefault()
     }
@@ -28,6 +35,7 @@ const Account = () => {
     const handleOnClick = (action) => (e) => {
         e.preventDefault()
         if (action === "delete") {
+
             Swal.fire(
                 'Votre compte à bien été supprimé',
                 '',
@@ -35,11 +43,13 @@ const Account = () => {
             )
             navigate("/")
         }
-        Swal.fire(
-            'Votre compte à bien été modifié',
-            '',
-            'success'
-        )
+        else {
+            Swal.fire(
+                'Votre compte à bien été modifié',
+                '',
+                'success'
+            )
+        }
     }
 
     return (
