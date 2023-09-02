@@ -5,6 +5,7 @@ import Decoration from "../components/Decoration/Decoration";
 import Footer from "../components/Footer/Footer";
 import firstImage from "../assets/images/third-image.jpg";
 import secondImage from "../assets/images/fourth-image.jpg";
+import Swal from "sweetalert2";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -15,11 +16,16 @@ const Login = () => {
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
         if (user !== null) {
-            if (user.email_verified_at === undefined) {
-                navigate("/verifyEmail")
+            if (user.role === 'admin') {
+                navigate("/admin/users")
             }
             else {
-                navigate("/home")
+                if (user.email_verified_at === undefined) {
+                    navigate("/verifyEmail")
+                }
+                else {
+                    navigate("/home")
+                }
             }
         }
     }, [])
@@ -47,12 +53,27 @@ const Login = () => {
                 sessionStorage.setItem("token", responseData.token)
                 sessionStorage.setItem("user", JSON.stringify(responseData.user))
                 sessionStorage.setItem("dateConnection", new Date())
-                navigate("/home")
+                if (responseData.user.role === "user") {
+                    navigate("/home")
+                }
+                else if (responseData.user.role === "admin") {
+                    navigate('/admin/users')
+                }
             } else {
                 console.error('Login failed:', response.statusText);
+                Swal.fire(
+                    'La connexion a échouée',
+                    '',
+                    'error'
+                )   
             }
         } catch (error) {
             console.error('Error during login:', error);
+            Swal.fire(
+                'La connexion a échouée',
+                '',
+                'error'
+            )   
         }
     }
 

@@ -23,32 +23,16 @@ const Register = () => {
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
         if (user !== null) {
-            //  try {
-            //     const response = await fetch('http://127.0.0.1:8000/api/user', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Accept': 'application/json'
-            //         },
-            //         body: JSON.stringify(formData)
-            //     });
-            //     if (response.status === 200) {
-            //         const responseData = await response.json();
-            //         sessionStorage.setItem("user", JSON.stringify(responseData.user))
-            //         sessionStorage.setItem("dateConnection", new Date())
-            //         navigate("/home")
-            //     } else {
-            //         console.error('Registration failed:', response.statusText);
-            //     }
-            // } catch (error) {
-            //     console.error('Error during registration:', error);
-            // }
-            
-            if (user.email_verified_at === undefined) {
-                navigate("/verifyEmail")
+            if (user.role === 'admin') {
+                navigate("/admin/users")
             }
             else {
-                navigate("/home")
+                if (user.email_verified_at === undefined) {
+                    navigate("/verifyEmail")
+                }
+                else {
+                    navigate("/home")
+                }
             }
         }
     }, [])
@@ -169,7 +153,7 @@ const Register = () => {
                     </div>
                     <button className="basic" type="submit">S'inscrire</button>
                     <div className="bottom-form">
-                        <p>Vous avez un compte ? <NavLink to="/toLogin">Connectez-vous</NavLink></p>
+                        <p>Vous avez un compte ? <NavLink to="/login">Connectez-vous</NavLink></p>
                     </div>
                 </form>
             </section>

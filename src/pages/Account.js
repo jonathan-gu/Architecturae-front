@@ -30,8 +30,13 @@ const Account = () => {
             navigate("/login")
         }
         else {
-            if (user.email_verified_at === undefined) {
-                navigate("/verifyEmail")
+            if (user.role === 'admin') {
+                navigate("/admin/users")
+            }
+            else {
+                if (user.email_verified_at === undefined) {
+                    navigate("/verifyEmail")
+                }
             }
         }
     }, [])
@@ -61,17 +66,16 @@ const Account = () => {
                     sessionStorage.removeItem("token")
                     navigate("/login")
                 } else {
-                    console.error('Logout failed:', response.statusText);
+                    console.error('delete failed:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error during logout:', error);
+                console.error('Error during deleted:', error);
             }
             Swal.fire(
                 'Votre compte à bien été supprimé',
                 '',
                 'success'
             )
-            navigate("/")
         }
         else {
             const formData = {
@@ -85,8 +89,16 @@ const Account = () => {
                 siret_number: siretNumber,
                 password: password,
                 password_confirmation: confirmPassword,
-                available_space: 0,
             };
+
+            var formDataFiltered = {}
+
+            for (const key in formData) {
+                if (formData[key].length > 0) {
+                    console.log(formData[key])
+                    formDataFiltered[key] = formData[key];
+                }
+            }
             try {
                 const response = await fetch(`http://127.0.0.1:8000/api/users/${user.id}`, {
                     method: 'PUT',
@@ -95,24 +107,26 @@ const Account = () => {
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
+                    body: JSON.stringify(formDataFiltered)
                 });
                 if (response.status === 200) {
                     const responseData = await response.json();
-                    sessionStorage.removeItem("user")
-                    sessionStorage.removeItem("dateConnection")
-                    sessionStorage.removeItem("token")
-                    navigate("/login")
+                    Swal.fire(
+                        'Votre compte à bien été modifié',
+                        '',
+                        'success'
+                    )       
                 } else {
-                    console.error('Logout failed:', response.statusText);
+                    console.error('update failed:', response.statusText);
+                    Swal.fire(
+                        'Le formulaire n\'est pas correctement remplis',
+                        '',
+                        'error'
+                    )
                 }
             } catch (error) {
-                console.error('Error during logout:', error);
+                console.error('Error during updated:', error);
             }
-            Swal.fire(
-                'Votre compte à bien été modifié',
-                '',
-                'success'
-            )
         }
     }
 
