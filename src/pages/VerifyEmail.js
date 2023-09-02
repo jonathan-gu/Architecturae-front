@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 
 const VerifyEmail = () => {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        var user = sessionStorage.getItem("user")
+        if (user === null) {
+            navigate("/")
+        }
+    })
+
+
     return (
         <>
             <Navbar />

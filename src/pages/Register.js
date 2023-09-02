@@ -20,6 +20,13 @@ const Register = () => {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        var user = sessionStorage.getItem("user")
+        if (user !== null) {
+            navigate("/verifyEmail")
+        }
+    })
+
     const handleOnSubmit = async (e) => {
         e.preventDefault()
         const formData = {
@@ -32,7 +39,8 @@ const Register = () => {
             postal_code: zip,
             siret_number: siretNumber,
             password: password,
-            password_confirmation: confirmPassword
+            password_confirmation: confirmPassword,
+            available_space: 0,
         };
 
         try {
@@ -44,10 +52,10 @@ const Register = () => {
                 },
                 body: JSON.stringify(formData)
             });
-            console.log(response)
             if (response.status === 200) {
                 const responseData = await response.json();
-                console.log('Registration successful:', responseData);
+                sessionStorage.setItem("user", JSON.stringify(responseData.user))
+                sessionStorage.setItem("dateConnection", new Date())
                 navigate("/verifyEmail")
             } else {
                 console.log('Registration failed:', response.statusText);
