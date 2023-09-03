@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Account from "../pages/Account";
 import AdminClients from "../pages/admin/Clients";
 import AdminStatistics from "../pages/admin/Statistics";
+import AdminClient from "../pages/admin/Client";
 
 const Router = () => {
     return (
@@ -17,6 +18,7 @@ const Router = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/account" element={<Account />} />
             <Route path="/admin/clients" element={<AdminClients />} />
+            <Route path="/admin/client/:id" element={<AdminClient />} />
             <Route path="/admin/statistics" element={<AdminStatistics />} />
         </Routes>
     )

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import Swal from 'sweetalert2'
 import "./row.css"
 
-const Row = ({ lastName, firstName, adressMail, phoneNumber, adress, city, zipCode, siretNumber = "" }) => {
+const Row = ({ id, lastName, firstName, adressMail, phoneNumber, adress, city, zipCode, siretNumber = "" }) => {
     const handleOnClick = (e) => {
         e.preventDefault()
         Swal.fire({
@@ -26,7 +26,7 @@ const Row = ({ lastName, firstName, adressMail, phoneNumber, adress, city, zipCo
     return (
         <>
             <tr>
-                <NavLink to="/admin/client">
+                <NavLink to={`/admin/client/${id}`}>
                     <td className="width1">{lastName}</td>
                     <td className="width1">{firstName}</td>
                     <td className="width3">{adressMail}</td>

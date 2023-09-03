@@ -4,7 +4,7 @@ import trash from "../../assets/icons/trash.svg";
 import download from "../../assets/icons/download.svg";
 import Swal from "sweetalert2";
 
-const File = ({ name, files, setFiles, id }) => {
+const File = ({ name, files, setFiles, id, role }) => {
     var token = sessionStorage.getItem("token")
     const handleOnDelete = async () => {
         try {
