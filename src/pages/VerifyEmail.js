@@ -13,7 +13,7 @@ const VerifyEmail = () => {
         }
         else {
             if (user.role == "admin") {
-                navigate("/users/admin")
+                navigate("/users/clients")
             }
             const getEmailVerified = async () => {
                 const token = sessionStorage.getItem("token")
@@ -27,11 +27,8 @@ const VerifyEmail = () => {
                         },
                     });
                     const responseData = await response.json();
-                    console.log(responseData.email_verified_at)
-                    console.log(responseData)
                     if (responseData.email_verified_at !== null) {
-                        console.log(user)
-                        user.email_verified_at = responseData.email_verified_at
+                        user.email_verified_at = responseData[0]
                         sessionStorage.setItem("user", JSON.stringify(user))
                         navigate("/home")
                     }
@@ -39,7 +36,12 @@ const VerifyEmail = () => {
                     console.error('Error during registration:', error);
                 }
             }
-            getEmailVerified()
+            if (user.email_verified_at === undefined) {
+                getEmailVerified()
+            }
+            else {
+                navigate("/home")
+            }
         }
     }, [])
 

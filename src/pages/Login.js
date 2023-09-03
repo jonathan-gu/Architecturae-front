@@ -17,7 +17,7 @@ const Login = () => {
         var user = JSON.parse(sessionStorage.getItem("user"))
         if (user !== null) {
             if (user.role === 'admin') {
-                navigate("/admin/users")
+                navigate("/admin/clients")
             }
             else {
                 if (user.email_verified_at === undefined) {
@@ -47,7 +47,6 @@ const Login = () => {
                 },
                 body: JSON.stringify(formData)
             });
-            console.log(response)
             if (response.status === 200) {
                 const responseData = await response.json();
                 sessionStorage.setItem("token", responseData.token)
@@ -57,7 +56,7 @@ const Login = () => {
                     navigate("/home")
                 }
                 else if (responseData.user.role === "admin") {
-                    navigate('/admin/users')
+                    navigate('/admin/clients')
                 }
             } else {
                 console.error('Login failed:', response.statusText);

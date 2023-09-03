@@ -24,7 +24,7 @@ const Register = () => {
         var user = JSON.parse(sessionStorage.getItem("user"))
         if (user !== null) {
             if (user.role === 'admin') {
-                navigate("/admin/users")
+                navigate("/admin/clients")
             }
             else {
                 if (user.email_verified_at === undefined) {

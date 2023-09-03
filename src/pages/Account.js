@@ -31,7 +31,7 @@ const Account = () => {
         }
         else {
             if (user.role === 'admin') {
-                navigate("/admin/users")
+                navigate("/admin/clients")
             }
             else {
                 if (user.email_verified_at === undefined) {
@@ -95,7 +95,6 @@ const Account = () => {
 
             for (const key in formData) {
                 if (formData[key].length > 0) {
-                    console.log(formData[key])
                     formDataFiltered[key] = formData[key];
                 }
             }
