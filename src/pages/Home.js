@@ -41,7 +41,6 @@ const Home = () => {
                     },
                 });
                 const responseData = await response.json();
-                console.log(responseData)
                 setFiles(responseData.files)
             } catch (error) {
                 console.error('Error during registration:', error);
@@ -76,10 +75,10 @@ const Home = () => {
                 },
                 body: formData
             });
-            console.log(response)
             if (response.status === 200) {
                 const responseData = await response.json();
                 setFiles([...files, responseData.file]);
+                setSelectedFile("")
                 Swal.fire(
                     'Votre fichier a bien été ajouté',
                     '',
@@ -124,7 +123,7 @@ const Home = () => {
                         <button type="submit">Ajouter</button>
                     </form>
                     {files.map(file => (
-                        <File name={file.file_name} />
+                        <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} />
                     ))}
                 </div>
             </section>
