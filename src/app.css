@@ -393,3 +393,18 @@ form {
 .logout {
     cursor: pointer;
 }
+
+#add-file {
+    padding: 20px 0 !important;
+    width: 300px !important;
+}
+
+#add-file button {
+    background-color: #00A0A8;
+    border: none;
+    border-radius: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 7px 14px;
+}

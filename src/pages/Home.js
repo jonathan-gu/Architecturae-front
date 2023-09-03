@@ -48,6 +48,10 @@ const Home = () => {
                         <h1>Mes fichiers</h1>
                         <input type="text" placeholder="Rechercher" />
                     </div>
+                    <form id="add-file">
+                        <input type="file" />
+                        <button type="submit">Ajouter</button>
+                    </form>
                     <File name="Fichier 1" />
                 </div>
             </section>
