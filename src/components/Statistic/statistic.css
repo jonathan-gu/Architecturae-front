@@ -1,0 +1,20 @@
+.statistic {
+    box-shadow: 0 11px 27px 0 #00000050;
+    border-radius: 10px;
+    font-size: 14px;
+    margin: 20px;
+    padding: 20px;
+    width: 200px;
+}
+
+.total, .day {
+    color: #FFFFFF;
+}
+
+.total {
+    background-color: #00A880;
+}
+
+.day {
+    background-color: #DC621D;
+}

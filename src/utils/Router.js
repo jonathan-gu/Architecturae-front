@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Account from "../pages/Account";
 import AdminClients from "../pages/admin/Clients";
+import AdminStatistics from "../pages/admin/Statistics";
 
 const Router = () => {
     return (
@@ -16,6 +17,7 @@ const Router = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/account" element={<Account />} />
             <Route path="/admin/clients" element={<AdminClients />} />
+            <Route path="/admin/statistics" element={<AdminStatistics />} />
         </Routes>
     )
 }
