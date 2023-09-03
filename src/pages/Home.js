@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import MenuItem from "../components/MenuItem/MenuItem";
@@ -6,9 +6,11 @@ import File from "../components/File/File";
 import Footer from "../components/Footer/Footer";
 import settings from "../assets/icons/settings.svg";
 import cloud from "../assets/icons/cloud-outline.svg";
+import Swal from "sweetalert2";
 
 const Home = () => {
     const navigate = useNavigate()
+    const [selectedFile, setSelectedFile] = useState("");
 
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
@@ -26,6 +28,53 @@ const Home = () => {
             }
         }
     }, [])
+
+    const handleOnChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    }
+
+    const handleOnSubmit = async (e) => {
+        e.preventDefault()
+        if (!selectedFile) {
+            Swal.fire(
+                'Veuillez selectionné un fichier',
+                '',
+                'error'
+            )
+            return
+        }
+
+        var formData = new FormData();
+        formData.append("file", selectedFile)
+        console.log(formData)
+        var token = sessionStorage.getItem("token")
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/files/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+            if (response.status === 200) {
+                const responseData = await response.json();
+                Swal.fire(
+                    'Votre fichier a bien été ajouté',
+                    '',
+                    'success'
+                )
+            } else {
+                console.error('Upload failed:', response.statusText);
+                Swal.fire(
+                    'L\'ajout du fichier a échoué',
+                    '',
+                    'error'
+                )   
+            }
+        } catch (error) {
+            console.error('Error during uploaded:', error);
+        }
+    }
 
     return (
         <>
@@ -48,8 +97,8 @@ const Home = () => {
                         <h1>Mes fichiers</h1>
                         <input type="text" placeholder="Rechercher" />
                     </div>
-                    <form id="add-file">
-                        <input type="file" />
+                    <form id="add-file" onSubmit={handleOnSubmit}>
+                        <input type="file" onChange={handleOnChange} />
                         <button type="submit">Ajouter</button>
                     </form>
                     <File name="Fichier 1" />
