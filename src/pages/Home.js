@@ -67,7 +67,6 @@ const Home = () => {
 
         var formData = new FormData();
         formData.append("file", selectedFile)
-        console.log(formData)
         var token = sessionStorage.getItem("token")
         try {
             const response = await fetch('http://127.0.0.1:8000/api/files/upload', {
@@ -77,8 +76,10 @@ const Home = () => {
                 },
                 body: formData
             });
+            console.log(response)
             if (response.status === 200) {
                 const responseData = await response.json();
+                setFiles([...files, responseData.file]);
                 Swal.fire(
                     'Votre fichier a bien été ajouté',
                     '',
