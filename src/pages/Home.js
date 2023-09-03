@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 const Home = () => {
     const navigate = useNavigate()
     const [selectedFile, setSelectedFile] = useState("");
+    const [files, setFiles] = useState([])
 
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
@@ -27,6 +28,26 @@ const Home = () => {
                 }
             }
         }
+
+        const getFiles = async () => {
+            const token = sessionStorage.getItem("token")
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/files', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                const responseData = await response.json();
+                console.log(responseData)
+                setFiles(responseData.files)
+            } catch (error) {
+                console.error('Error during registration:', error);
+            }
+        }
+        getFiles()
     }, [])
 
     const handleOnChange = (e) => {
@@ -101,7 +122,9 @@ const Home = () => {
                         <input type="file" onChange={handleOnChange} />
                         <button type="submit">Ajouter</button>
                     </form>
-                    <File name="Fichier 1" />
+                    {files.map(file => (
+                        <File name={file.file_name} />
+                    ))}
                 </div>
             </section>
             <Footer />
