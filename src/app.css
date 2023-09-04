@@ -263,6 +263,10 @@ form {
     #menu-admin {
         top: 70px;
     }
+
+    .StripeElement {
+        width: 300px;
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -407,4 +411,16 @@ form {
     cursor: pointer;
     margin-top: 10px;
     padding: 7px 14px;
+}
+
+.StripeElement {
+    border-radius: 10px;
+    box-shadow: 0 11px 27px 0;
+    margin: 20px 0;
+    padding: 10px;
+    width: 250px;
+}
+
+#stripe {
+    padding-bottom: 20px;
 }

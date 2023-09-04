@@ -8,12 +8,14 @@ import Account from "../pages/Account";
 import AdminClients from "../pages/admin/Clients";
 import AdminStatistics from "../pages/admin/Statistics";
 import AdminClient from "../pages/admin/Client";
+import BuySpace from "../pages/BuySpace";
 
 const Router = () => {
     return (
         <Routes>
             <Route path="/" element={<Register />} />
             <Route path="/verifyEmail" element={<VerifyEmail />} />
+            <Route path="/buySpace" element={<BuySpace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/account" element={<Account />} />
