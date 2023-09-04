@@ -12,6 +12,7 @@ const Home = () => {
     const navigate = useNavigate()
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
+    const [storage, setStorage] = useState(0)
 
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
@@ -29,8 +30,8 @@ const Home = () => {
             }
         }
 
+        const token = sessionStorage.getItem("token")
         const getFiles = async () => {
-            const token = sessionStorage.getItem("token")
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/files', {
                     method: 'GET',
@@ -41,12 +42,33 @@ const Home = () => {
                     },
                 });
                 const responseData = await response.json();
-                setFiles(responseData.files)
+                console.log(responseData)
+                if (responseData.files !== null) {
+                    setFiles(responseData.files)
+                }
             } catch (error) {
-                console.error('Error during registration:', error);
+                console.error('Error during get:', error);
             }
         }
         getFiles()
+        // const getStorage = async () => {
+        //     try {
+        //         const response = await fetch(`http://127.0.0.1:8000/api/users/storage/size`, {
+        //             method: 'GET',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'Accept': 'application/json',
+        //                 'Authorization': `Bearer ${token}`
+        //             },
+        //         });
+        //         const responseData = await response.json();
+        //         console.log(responseData)
+        //         // setFiles(responseData.files)
+        //     } catch (error) {
+        //         console.error('Error during get:', error);
+        //     }
+        // }
+        // getStorage()
     }, [])
 
     const handleOnChange = (e) => {
@@ -64,9 +86,9 @@ const Home = () => {
             return
         }
 
+        const token = sessionStorage.getItem("token")
         var formData = new FormData();
         formData.append("file", selectedFile)
-        var token = sessionStorage.getItem("token")
         try {
             const response = await fetch('http://127.0.0.1:8000/api/files/upload', {
                 method: 'POST',

@@ -27,6 +27,7 @@ const VerifyEmail = () => {
                         },
                     });
                     const responseData = await response.json();
+                    console.log(responseData)
                     if (responseData.email_verified_at !== null) {
                         user.email_verified_at = responseData[0]
                         sessionStorage.setItem("user", JSON.stringify(user))
@@ -36,7 +37,7 @@ const VerifyEmail = () => {
                     console.error('Error during registration:', error);
                 }
             }
-            if (user.email_verified_at === undefined) {
+            if (user.email_verified_at === undefined || user.email_verified_at === null) {
                 getEmailVerified()
             }
             else {
