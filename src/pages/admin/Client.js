@@ -45,7 +45,7 @@ const AdminClient = () => {
                     <input type="text" placeholder="Rechercher" />
                 </div>
                 {files.map(file => (
-                    <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} role="admin" />
+                    <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} role="admin" isDelete={false} />
                 ))}
             </div>
         </>
