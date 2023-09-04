@@ -12,6 +12,7 @@ const Home = () => {
     const navigate = useNavigate()
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
+    const [filteredFiles, setFilteredFiles] = useState([])
     const [storage, setStorage] = useState(0)
 
     useEffect(() => {
@@ -45,6 +46,7 @@ const Home = () => {
                 console.log(responseData)
                 if (responseData.files !== null) {
                     setFiles(responseData.files)
+                    setFilteredFiles(responseData.files)
                 }
             } catch (error) {
                 console.error('Error during get:', error);
@@ -75,8 +77,22 @@ const Home = () => {
         setSelectedFile(e.target.files[0]);
     }
 
+    const handleOnWrite = (e) => {
+        console.log(e.target.value)
+        if (e.target.value === "") {
+            setFilteredFiles(files)
+        }
+        else {
+            const filtered = files.filter((file) =>
+                file.file_name.toLowerCase().includes(e.target.value.toLowerCase())
+            )
+            setFilteredFiles(filtered)
+        }
+    }
+
     const handleOnSubmit = async (e) => {
         e.preventDefault()
+        console.log(selectedFile)
         if (!selectedFile) {
             Swal.fire(
                 'Veuillez selectionné un fichier',
@@ -99,7 +115,7 @@ const Home = () => {
             });
             if (response.status === 200) {
                 const responseData = await response.json();
-                setFiles([...files, responseData.file]);
+                setFiles([responseData.file, ...files]);
                 setSelectedFile("")
                 Swal.fire(
                     'Votre fichier a bien été ajouté',
@@ -138,14 +154,14 @@ const Home = () => {
                 <div id="main">
                     <div id="title">
                         <h1>Mes fichiers</h1>
-                        <input type="text" placeholder="Rechercher" />
+                        <input type="text" placeholder="Rechercher" onChange={handleOnWrite}/>
                     </div>
                     <form id="add-file" onSubmit={handleOnSubmit}>
-                        <input type="file" onChange={handleOnChange} />
+                        <input type="file" onChange={handleOnChange}/>
                         <button type="submit">Ajouter</button>
                     </form>
-                    {files.map(file => (
-                        <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} role="user" />
+                    {filteredFiles.map(file => (
+                        <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} role="user" />
                     ))}
                 </div>
             </section>

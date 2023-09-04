@@ -4,7 +4,7 @@ import trash from "../../assets/icons/trash.svg";
 import download from "../../assets/icons/download.svg";
 import Swal from "sweetalert2";
 
-function File({ name, files, setFiles, id, role, isDelete = true }) {
+function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = true }) {
     var token = sessionStorage.getItem("token");
     const handleOnDelete = async () => {
         try {
@@ -17,6 +17,7 @@ function File({ name, files, setFiles, id, role, isDelete = true }) {
             if (response.status === 200) {
                 const responseData = await response.json();
                 setFiles(files.filter(file => file.id !== id));
+                setFilteredFiles(files.filter(file => file.id !== id));
                 Swal.fire(
                     'Votre fichier a bien été supprimé',
                     '',
