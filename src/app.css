@@ -431,7 +431,7 @@ select {
     border-radius: 10px;
     box-shadow: 0 5px 13px 0 #00000050;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 10px 10px 0 0;
     outline: none;
     padding: 3px;
 }

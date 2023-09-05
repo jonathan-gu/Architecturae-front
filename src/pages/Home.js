@@ -13,7 +13,6 @@ const Home = () => {
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
     const [filteredFiles, setFilteredFiles] = useState([])
-    const [search, setSearch] = useState("")
     const [storage, setStorage] = useState(0)
 
     useEffect(() => {
@@ -118,7 +117,6 @@ const Home = () => {
     }
 
     const handleOnWrite = (e) => {
-        setSearch(e.target.value)
         handleOnFilter(e.target.value)
     }
 
