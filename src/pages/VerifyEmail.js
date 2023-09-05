@@ -28,7 +28,7 @@ const VerifyEmail = () => {
                     });
                     const responseData = await response.json();
                     console.log(responseData)
-                    if (responseData.email_verified_at !== null) {
+                    if (responseData.email_verified_at !== null && responseData.email_verified_at !== undefined) {
                         user.email_verified_at = responseData[0]
                         sessionStorage.setItem("user", JSON.stringify(user))
                         navigate("/home")
