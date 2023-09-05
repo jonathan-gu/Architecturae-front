@@ -20,7 +20,7 @@ const Table = () => {
                 const responseData = await response.json();
                 setUsers(responseData.users)
             } catch (error) {
-                console.error('Error during registration:', error);
+                console.error('Error during get:', error);
             }
         }
         getUsers()

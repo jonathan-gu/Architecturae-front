@@ -4,9 +4,13 @@ import Navbar from "../../components/Navbar/Navbar";
 import MenuItem from "../../components/MenuItem/MenuItem";
 import Table from "../../components/Table/Table";
 import cloud from "../../assets/icons/cloud-outline.svg"
+import { ClipLoader } from "react-spinners";
 
 const AdminClients = () => {
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
     const navigate = useNavigate()
+
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
 
     useEffect(() => {
         const user = JSON.parse(sessionStorage.getItem("user"))
@@ -23,15 +27,37 @@ const AdminClients = () => {
                 }
             }
         }
+        setVerificationCompleted(true);
     }, [])
+
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
+
     return (
         <>
-            <Navbar more={true} items={[{name: "Clients", route: "/admin/clients"}, {name: "Tableau de bord", route: "/admin/statistics"}]} />
-            <div id="menu-admin">
-                <NavLink to="/admin/clients"><button>Clients</button></NavLink>
-                <NavLink to="/admin/statistics"><button>Tableau de bord</button></NavLink>
-            </div>
-            <Table />
+            {isLoadingVerifPage ? (
+                <div className="loader loaderPage">
+                    <ClipLoader
+                        color="#444444"
+                        loading={isLoadingVerifPage}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                </div>
+            ) : (
+                <>
+                    <Navbar more={true} items={[{name: "Clients", route: "/admin/clients"}, {name: "Tableau de bord", route: "/admin/statistics"}]} />
+                    <div id="menu-admin">
+                        <NavLink to="/admin/clients"><button>Clients</button></NavLink>
+                        <NavLink to="/admin/statistics"><button>Tableau de bord</button></NavLink>
+                    </div>
+                    <Table />
+                </>
+            )}
         </>
     )
 }
