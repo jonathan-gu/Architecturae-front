@@ -1,16 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Statistic from "../../components/Statistic/Statistic";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const AdminStatistics = () => {
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
+
     const [total_uploaded_files, setTotal_uploaded_files] = useState(null)
     const [today_uploaded_files, setToday_uploaded_files] = useState(null)
     const [files_per_client, setFiles_per_client] = useState([])
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
 
-
+    const navigate = useNavigate()
 
     useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        if (user === null) {
+            navigate("/login")
+        }
+        else {
+            if (user.role === 'user') {
+                if (user.email_verified_at === undefined || user.email_verified_at === null) {
+                    navigate("/verifyEmail")
+                }
+                else {
+                    navigate("/home")
+                }
+            }
+        }
+
         const getNumberTotalFiles = async () => {
             const token = sessionStorage.getItem("token")
             try {
@@ -69,26 +88,47 @@ const AdminStatistics = () => {
             }
         }
         getFilesPerClient()
+        setVerificationCompleted(true);
     }, [])
+
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
 
     return (
         <>
-            <Navbar more={true} items={[{name: "Clients", route: "/admin/clients"}, {name: "Tableau de bord", route: "/admin/statistics"}]} />
-            <div id="menu-admin">
-                <NavLink to="/admin/clients"><button>Clients</button></NavLink>
-                <NavLink to="/admin/statistics"><button>Tableau de bord</button></NavLink>
-            </div>
-            <section id="admin">
-                <div className="statistics">
-                    <Statistic name="Fichiers téléchargés" number={total_uploaded_files} type="total" />
-                    <Statistic name="Fichiers téléchargés aujourd'hui" number={today_uploaded_files} type="day" />
+            {isLoadingVerifPage ? (
+                <div className="loader loaderPage">
+                    <ClipLoader
+                        color="#444444"
+                        loading={isLoadingVerifPage}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
                 </div>
-                <div className="statistics">
-                    {files_per_client.map(client => (
-                        <Statistic name={client.name} number={client.numberFiles} />
-                    ))}
-                </div>
-            </section>
+            ) : (
+                <>
+                    <Navbar more={true} items={[{name: "Clients", route: "/admin/clients"}, {name: "Tableau de bord", route: "/admin/statistics"}]} />
+                    <div id="menu-admin">
+                        <NavLink to="/admin/clients"><button>Clients</button></NavLink>
+                        <NavLink to="/admin/statistics"><button>Tableau de bord</button></NavLink>
+                    </div>
+                    <section id="admin">
+                        <div className="statistics">
+                            <Statistic name="Fichiers téléchargés" number={total_uploaded_files} type="total" />
+                            <Statistic name="Fichiers téléchargés aujourd'hui" number={today_uploaded_files} type="day" />
+                        </div>
+                        <div className="statistics">
+                            {files_per_client.map(client => (
+                                <Statistic name={client.name} number={client.numberFiles} />
+                            ))}
+                        </div>
+                    </section>
+                </>
+            )}
         </>
     )
 }

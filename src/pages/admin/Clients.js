@@ -14,9 +14,8 @@ const AdminClients = () => {
             navigate("/login")
         }
         else {
-            console.log(1)
             if (user.role === 'user') {
-                if (user.email_verified_at === undefined) {
+                if (user.email_verified_at === undefined || user.email_verified_at === null) {
                     navigate("/verifyEmail")
                 }
                 else {

@@ -22,7 +22,6 @@ const VerifyEmail = () => {
             const getEmailVerified = async () => {
                 const token = sessionStorage.getItem("token")
                 try {
-                    console.log(1)
                     const response = await fetch('http://127.0.0.1:8000/api/user/email-verification-date', {
                         method: 'GET',
                         headers: {
@@ -32,7 +31,6 @@ const VerifyEmail = () => {
                         },
                     });
                     const responseData = await response.json();
-                    console.log(responseData[0])
                     if (responseData[0] !== null) {
                         user.email_verified_at = responseData[0]
                         sessionStorage.setItem("user", JSON.stringify(user))

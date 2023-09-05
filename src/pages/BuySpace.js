@@ -70,7 +70,6 @@ const BuySpace = () => {
             }
             const dataJSON = JSON.parse(data)
             const clientSecret = dataJSON.client_secret;
-            console.log(clientSecret)
             const result = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: elements.getElement(CardElement),

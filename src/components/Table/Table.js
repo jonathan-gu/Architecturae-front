@@ -42,7 +42,7 @@ const Table = () => {
             </thead>
             <tbody>
                 {users.map(user => (
-                    <Row id={user.id} lastName={user.name} firstName={user.first_name} adressMail={user.email} phoneNumber={user.phone_number} city={user.city} address={user.address} zipCode={user.postal_code} siretNumber={user.siret_number}/>
+                    <Row key={user.id} id={user.id} lastName={user.name} firstName={user.first_name} adressMail={user.email} phoneNumber={user.phone_number} city={user.city} address={user.address} zipCode={user.postal_code} siretNumber={user.siret_number}/>
                 ))}
             </tbody>
         </table>
