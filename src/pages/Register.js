@@ -103,7 +103,7 @@ const Register = () => {
                 <div className="loader">
                     <ClipLoader
                         color="red"
-                        loading={isLoading}
+                        loading={isLoadingVerifPage}
                         size={150}
                         aria-label="Loading Spinner"
                         data-testid="loader"

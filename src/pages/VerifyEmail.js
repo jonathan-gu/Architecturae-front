@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const VerifyEmail = () => {
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -12,8 +15,8 @@ const VerifyEmail = () => {
             navigate("/login")
         }
         else {
-            if (user.role == "admin") {
-                navigate("/users/clients")
+            if (user.role === "admin") {
+                navigate("/admin/clients")
             }
             const getEmailVerified = async () => {
                 const token = sessionStorage.getItem("token")
@@ -28,13 +31,13 @@ const VerifyEmail = () => {
                     });
                     const responseData = await response.json();
                     console.log(responseData)
-                    if (responseData.email_verified_at !== null && responseData.email_verified_at !== undefined) {
+                    if (responseData !== null && responseData !== undefined) {
                         user.email_verified_at = responseData[0]
                         sessionStorage.setItem("user", JSON.stringify(user))
                         navigate("/home")
                     }
                 } catch (error) {
-                    console.error('Error during registration:', error);
+                    console.error('Error during get:', error);
                 }
             }
             if (user.email_verified_at === undefined || user.email_verified_at === null) {
@@ -44,17 +47,32 @@ const VerifyEmail = () => {
                 navigate("/home")
             }
         }
+        setIsLoadingVerifPage(true)
     }, [])
 
 
     return (
         <>
-            <Navbar />
-            <section id="not">
-                <h1>Verification d'email</h1>
-                <p>Veuillez vérifier votre pour accéder à votre espace</p>
-            </section>
-            <Footer />
+            {isLoadingVerifPage ? (
+                <div className="loader">
+                    <ClipLoader
+                        color="red"
+                        loading={isLoadingVerifPage}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                </div>
+            ) : (
+                <>
+                    <Navbar />
+                    <section id="not">
+                        <h1>Verification d'email</h1>
+                        <p>Veuillez vérifier votre pour accéder à votre espace</p>
+                    </section>
+                    <Footer />
+                </>
+            )}
         </>
     )
 }
