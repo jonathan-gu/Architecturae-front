@@ -10,13 +10,12 @@ import Swal from "sweetalert2";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const Home = () => {
-    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
-
     const navigate = useNavigate()
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
     const [filteredFiles, setFilteredFiles] = useState([])
-    const [AutorizeStorage, setAuthorizeStorage] = useState(0)
+    const [autorizeStorage, setAuthorizeStorage] = useState(0)
     const [verificationCompleted, setVerificationCompleted] = useState(false)
 
     useEffect(() => {
@@ -37,6 +36,7 @@ const Home = () => {
                 }
             }
         }
+        setAuthorizeStorage(Number(user.available_space) / 1024)
 
         const token = sessionStorage.getItem("token")
         const getFiles = async () => {
@@ -59,24 +59,23 @@ const Home = () => {
             }
         }
         getFiles()
-        // const getStorage = async () => {
-        //     try {
-        //         const response = await fetch(`http://127.0.0.1:8000/api/users/storage/size`, {
-        //             method: 'GET',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'Accept': 'application/json',
-        //                 'Authorization': `Bearer ${token}`
-        //             },
-        //         });
-        //         const responseData = await response.json();
-        //         console.log(responseData)
-        //         // setFiles(responseData.files)
-        //     } catch (error) {
-        //         console.error('Error during get:', error);
-        //     }
-        // }
-        // getStorage()
+        const getStorage = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/users/storage/size`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                const responseData = await response.json();
+                // console.log(responseData)
+            } catch (error) {
+                console.error('Error during get:', error);
+            }
+        }
+        getStorage()
         setVerificationCompleted(true);
     }, [])
 
@@ -199,13 +198,13 @@ const Home = () => {
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <div className="spaces">
                                 <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
-                                <p className="space">0 Go / 20 Go</p>
+                                <p className="space">0 Go / {autorizeStorage} Go</p>
                             </div>
                         </div>
                         <div id="menu">
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
-                            <p className="space">0 Go / 20 Go</p>
+                            <p className="space">0 Go / {autorizeStorage} Go</p>
                         </div>
                         <div id="main">
                             <div id="title">

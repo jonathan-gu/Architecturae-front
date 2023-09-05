@@ -11,6 +11,7 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
 
     var token = sessionStorage.getItem("token");
     const handleOnDelete = async () => {
+        setIsLoadingDelete(true)
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/files/${id}`, {
                 method: 'DELETE',
@@ -22,6 +23,7 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
                 const responseData = await response.json();
                 setFiles(files.filter(file => file.id !== id));
                 setFilteredFiles(files.filter(file => file.id !== id));
+                setIsLoadingDelete(false)
                 Swal.fire(
                     'Votre fichier a bien été supprimé',
                     '',
@@ -29,6 +31,7 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
                 );
             } else {
                 console.error('Upload failed:', response.statusText);
+                setIsLoadingDelete(false)
                 Swal.fire(
                     'La suppression du fichier a échoué',
                     '',
@@ -90,7 +93,21 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
         <div className="file">
             <p>{name}</p>
             <div className="actions">
-                {isDelete && <img src={trash} onClick={handleOnDelete} />}
+                
+                {isDelete && 
+                    isLoadingDelete ? (
+                        <div className="loader">
+                            <ClipLoader
+                                color="#444444"
+                                loading={isLoadingDelete}
+                                size={20}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div>
+                ) : (
+                    <img src={trash} onClick={handleOnDelete} />
+                )}
                 {isLoadingDownload ? (
                     <div className="loader">
                         <ClipLoader

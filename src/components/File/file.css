@@ -34,3 +34,8 @@
         max-width: calc(100vw - 550px);
     }
 }
+
+.actions {
+    display: flex;
+    flex-direction: row;
+}
