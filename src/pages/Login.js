@@ -6,8 +6,12 @@ import Footer from "../components/Footer/Footer";
 import firstImage from "../assets/images/third-image.jpg";
 import secondImage from "../assets/images/fourth-image.jpg";
 import Swal from "sweetalert2";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Login = () => {
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -20,7 +24,7 @@ const Login = () => {
                 navigate("/admin/clients")
             }
             else {
-                if (user.email_verified_at === undefined) {
+                if (user.email_verified_at === null || user.email_verified_at === undefined) {
                     navigate("/verifyEmail")
                 }
                 else {
@@ -28,6 +32,7 @@ const Login = () => {
                 }
             }
         }
+        setIsLoadingVerifPage(false)
     }, [])
 
     const handleOnSubmit = async (e) => {
@@ -52,8 +57,18 @@ const Login = () => {
                 sessionStorage.setItem("token", responseData.token)
                 sessionStorage.setItem("user", JSON.stringify(responseData.user))
                 sessionStorage.setItem("dateConnection", new Date())
+                Swal.fire(
+                    'Vous êtes connecté',
+                    '',
+                    'success'
+                ) 
                 if (responseData.user.role === "user") {
-                    navigate("/home")
+                    if (responseData.user.email_verified_at === null || responseData.user.email_verified_at === undefined) {
+                        navigate("/verifyEmail")
+                    }
+                    else {
+                        navigate("/home")
+                    }
                 }
                 else if (responseData.user.role === "admin") {
                     navigate('/admin/clients')
@@ -78,34 +93,60 @@ const Login = () => {
 
     return (
         <>
-            <Navbar isLogin={false} />
-            <section id="section-form">
-                <Decoration firstImage={firstImage} secondImage={secondImage} />
-                <form onSubmit={handleOnSubmit}>
-                    <h1>Connexion</h1>
-                    <div id="fields">
-                        <div className="duo">
-                            <div className="field">
-                                <div className="label">
-                                    <label>Adresse mail</label>
+            {isLoadingVerifPage ? (
+                <div className="loader">
+                    <ClipLoader
+                        color="red"
+                        loading={isLoading}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                </div>
+            ) : (
+                <>
+                    <Navbar isLogin={false} />
+                    <section id="section-form">
+                        <Decoration firstImage={firstImage} secondImage={secondImage} />
+                        <form onSubmit={handleOnSubmit}>
+                            <h1>Connexion</h1>
+                            <div id="fields">
+                                <div className="duo">
+                                    <div className="field">
+                                        <div className="label">
+                                            <label>Adresse mail</label>
+                                        </div>
+                                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    </div>
+                                    <div className="field">
+                                        <div className="label">
+                                            <label>Mot de passe</label>
+                                        </div>
+                                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    </div>
                                 </div>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
-                            <div className="field">
-                                <div className="label">
-                                    <label>Mot de passe</label>
+                            {isLoading ? (
+                                <div className="loader">
+                                    <ClipLoader
+                                        color="red"
+                                        loading={isLoading}
+                                        size={42.7}
+                                        aria-label="Loading Spinner"
+                                        data-testid="loader"
+                                    />
                                 </div>
-                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            ) : (
+                                <button className="basic" type="submit">Se connecter</button>
+                            )}
+                            <div className="bottom-form">
+                                <p>Vous n'avez pas de compte ? <NavLink to="/">Inscrivez-vous</NavLink></p>
                             </div>
-                        </div>
-                    </div>
-                    <button className="basic" type="submit">Se connecter</button>
-                    <div className="bottom-form">
-                        <p>Vous n'avez pas de compte ? <NavLink to="/">Inscrivez-vous</NavLink></p>
-                    </div>
-                </form>
-            </section>
-            <Footer />
+                        </form>
+                    </section>
+                    <Footer />
+                </>
+            )}
         </>
     )
 }
