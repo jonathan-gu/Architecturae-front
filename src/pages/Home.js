@@ -25,7 +25,7 @@ const Home = () => {
                 navigate("/admin/clients")
             }
             else {
-                if (user.email_verified_at === undefined) {
+                if (user.email_verified_at === undefined || user.email_verified_at === null) {
                     navigate("/verifyEmail")
                 }
             }

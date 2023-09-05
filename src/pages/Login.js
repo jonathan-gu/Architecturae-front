@@ -96,7 +96,7 @@ const Login = () => {
             {isLoadingVerifPage ? (
                 <div className="loader">
                     <ClipLoader
-                        color="red"
+                        color="#444444"
                         loading={isLoadingVerifPage}
                         size={150}
                         aria-label="Loading Spinner"
@@ -129,7 +129,7 @@ const Login = () => {
                             {isLoading ? (
                                 <div className="loader">
                                     <ClipLoader
-                                        color="red"
+                                        color="#444444"
                                         loading={isLoading}
                                         size={42.7}
                                         aria-label="Loading Spinner"

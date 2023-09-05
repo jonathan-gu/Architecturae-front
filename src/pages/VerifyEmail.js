@@ -21,6 +21,7 @@ const VerifyEmail = () => {
             const getEmailVerified = async () => {
                 const token = sessionStorage.getItem("token")
                 try {
+                    console.log(1)
                     const response = await fetch('http://127.0.0.1:8000/api/user/email-verification-date', {
                         method: 'GET',
                         headers: {
@@ -30,8 +31,8 @@ const VerifyEmail = () => {
                         },
                     });
                     const responseData = await response.json();
-                    console.log(responseData)
-                    if (responseData !== null && responseData !== undefined) {
+                    console.log(responseData[0])
+                    if (responseData[0] !== null) {
                         user.email_verified_at = responseData[0]
                         sessionStorage.setItem("user", JSON.stringify(user))
                         navigate("/home")
@@ -47,7 +48,7 @@ const VerifyEmail = () => {
                 navigate("/home")
             }
         }
-        setIsLoadingVerifPage(true)
+        setIsLoadingVerifPage(false)
     }, [])
 
 
@@ -56,7 +57,7 @@ const VerifyEmail = () => {
             {isLoadingVerifPage ? (
                 <div className="loader">
                     <ClipLoader
-                        color="red"
+                        color="#444444"
                         loading={isLoadingVerifPage}
                         size={150}
                         aria-label="Loading Spinner"
