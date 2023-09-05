@@ -25,6 +25,10 @@
     cursor: pointer;
 }
 
+.file .loader {
+    padding-right: 15px;
+}
+
 @media screen and (min-width: 769px) {
     .file p {
         max-width: calc(100vw - 550px);
