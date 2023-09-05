@@ -143,6 +143,7 @@ form {
 #title input {
     border: 1px solid #00000020;
     border-radius: 10px;
+    box-shadow: 0 5px 13px 0 #00000050;
     font-size: 12px;
     margin-top: 10px;
     outline: none;
@@ -415,7 +416,7 @@ form {
 
 .StripeElement {
     border-radius: 10px;
-    box-shadow: 0 11px 27px 0;
+    box-shadow: 0 11px 27px 0 #00000050;
     margin: 20px 0;
     padding: 10px;
     width: 250px;
@@ -423,4 +424,14 @@ form {
 
 #stripe {
     padding-bottom: 20px;
+}
+
+select {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 13px 0 #00000050;
+    cursor: pointer;
+    margin-right: 10px;
+    outline: none;
+    padding: 3px;
 }

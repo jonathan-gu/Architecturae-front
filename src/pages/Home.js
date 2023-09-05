@@ -13,6 +13,7 @@ const Home = () => {
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
     const [filteredFiles, setFilteredFiles] = useState([])
+    const [search, setSearch] = useState("")
     const [storage, setStorage] = useState(0)
 
     useEffect(() => {
@@ -43,7 +44,6 @@ const Home = () => {
                     },
                 });
                 const responseData = await response.json();
-                console.log(responseData)
                 if (responseData.files !== null) {
                     setFiles(responseData.files)
                     setFilteredFiles(responseData.files)
@@ -73,26 +73,57 @@ const Home = () => {
         // getStorage()
     }, [])
 
+    const handleOnFilter = (searchValue, newFile = null) => {
+        if (searchValue === "") {
+            setFilteredFiles(files)
+        }
+        else {
+            const filtered = files.filter((file) =>
+                file.file_name.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            if (newFile !== null) {
+                if(newFile.file_name.toLowerCase().includes(searchValue.toLowerCase())) {
+                    filtered.push(newFile)
+                }
+            }
+            setFilteredFiles(filtered)
+        }
+    }
+
+    const handleOnSorting = (e) => {
+        let sortedFiles = [...files]
+        let sortedFilteredFiles = [...filteredFiles]
+        if (e.target.value === "dateMore") {
+            sortedFiles.sort((a, b) => new Date(b.added_at) - new Date(a.added_at));
+            sortedFilteredFiles.sort((a, b) => new Date(b.added_at) - new Date(a.added_at));
+        }
+        else if (e.target.value === "dateLess") {
+            sortedFiles.sort((a, b) => new Date(a.added_at) - new Date(b.added_at));
+            sortedFilteredFiles.sort((a, b) => new Date(a.added_at) - new Date(b.added_at));
+        }
+        else if (e.target.value === "sizeMore") {
+            sortedFiles.sort((a, b) => b.file_size - a.file_size)
+            sortedFilteredFiles.sort((a, b) => b.file_size - a.file_size)
+        }
+        else if (e.target.value === "sizeLess") {
+            sortedFiles.sort((a, b) => a.file_size - b.file_size)
+            sortedFilteredFiles.sort((a, b) => a.file_size - b.file_size)
+        }
+        setFiles(sortedFiles)
+        setFilteredFiles(sortedFilteredFiles)
+    }
+
     const handleOnChange = (e) => {
         setSelectedFile(e.target.files[0]);
     }
 
     const handleOnWrite = (e) => {
-        console.log(e.target.value)
-        if (e.target.value === "") {
-            setFilteredFiles(files)
-        }
-        else {
-            const filtered = files.filter((file) =>
-                file.file_name.toLowerCase().includes(e.target.value.toLowerCase())
-            )
-            setFilteredFiles(filtered)
-        }
+        setSearch(e.target.value)
+        handleOnFilter(e.target.value)
     }
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
-        console.log(selectedFile)
         if (!selectedFile) {
             Swal.fire(
                 'Veuillez selectionné un fichier',
@@ -117,6 +148,7 @@ const Home = () => {
                 const responseData = await response.json();
                 setFiles([responseData.file, ...files]);
                 setSelectedFile("")
+                handleOnFilter(document.getElementById("search").value, responseData.file)
                 Swal.fire(
                     'Votre fichier a bien été ajouté',
                     '',
@@ -154,7 +186,15 @@ const Home = () => {
                 <div id="main">
                     <div id="title">
                         <h1>Mes fichiers</h1>
-                        <input type="text" placeholder="Rechercher" onChange={handleOnWrite}/>
+                        <div>
+                            <select onChange={handleOnSorting}>
+                                <option value="dateLess">Date (ancien)</option>
+                                <option value="dateMore">Date (récent)</option>
+                                <option value="sizeMore">Taille (Elevée)</option>
+                                <option value="sizeLess">Taille (Faible)</option>
+                            </select>
+                            <input id="search" type="text" placeholder="Rechercher" onChange={handleOnWrite}/>
+                        </div>
                     </div>
                     <form id="add-file" onSubmit={handleOnSubmit}>
                         <input type="file" onChange={handleOnChange}/>
