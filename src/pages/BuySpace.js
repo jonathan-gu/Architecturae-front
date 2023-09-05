@@ -40,7 +40,15 @@ const BuySpace = () => {
                 console.error(result.error)
             }
             else if (result.paymentIntent.status === 'succeeded') {
-                console.log("paiment reussi")
+                const response = await fetch("http://127.0.0.1:8000/api/confirm-payment", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                console.log(response)
             };
         } catch (error){
             console.error('Error during paiement:', error);

@@ -32,7 +32,6 @@ const Register = () => {
                 navigate("/admin/clients")
             }
             else {
-                console.log(user.email_verified_at)
                 if (user.email_verified_at === null || user.email_verified_at === undefined) {
                     navigate("/verifyEmail")
                 }

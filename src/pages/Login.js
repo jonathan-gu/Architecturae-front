@@ -57,11 +57,11 @@ const Login = () => {
                 sessionStorage.setItem("token", responseData.token)
                 sessionStorage.setItem("user", JSON.stringify(responseData.user))
                 sessionStorage.setItem("dateConnection", new Date())
-                Swal.fire(
-                    'Vous êtes connecté',
-                    '',
-                    'success'
-                ) 
+                // Swal.fire(
+                //     'Vous êtes connecté',
+                //     '',
+                //     'success'
+                // ) 
                 if (responseData.user.role === "user") {
                     if (responseData.user.email_verified_at === null || responseData.user.email_verified_at === undefined) {
                         navigate("/verifyEmail")
