@@ -6,6 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const VerifyEmail = () => {
     const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
 
     const navigate = useNavigate()
 
@@ -48,14 +49,19 @@ const VerifyEmail = () => {
                 navigate("/home")
             }
         }
-        setIsLoadingVerifPage(false)
+        setVerificationCompleted(true);
     }, [])
 
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
 
     return (
         <>
             {isLoadingVerifPage ? (
-                <div className="loader">
+                <div className="loader loaderPage">
                     <ClipLoader
                         color="#444444"
                         loading={isLoadingVerifPage}

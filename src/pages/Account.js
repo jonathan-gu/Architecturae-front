@@ -141,7 +141,7 @@ const Account = () => {
                 </div>
                 <div id="main">
                     <h1 id="first-title">Mon Profil</h1>
-                    <form onSubmit={handleOnSubmit}>
+                    <form className="form-account" onSubmit={handleOnSubmit}>
                         <div id="fields">
                             <div className="duo">
                                 <div className="field">

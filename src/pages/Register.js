@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 const Register = () => {
     const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -40,8 +41,14 @@ const Register = () => {
                 }
             }
         }
-        setIsLoadingVerifPage(false)
+        setVerificationCompleted(true);
     }, [])
+
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
@@ -100,7 +107,7 @@ const Register = () => {
     return (
         <>
             {isLoadingVerifPage ? (
-                <div className="loader">
+                <div className="loader loaderPage">
                     <ClipLoader
                         color="#444444"
                         loading={isLoadingVerifPage}

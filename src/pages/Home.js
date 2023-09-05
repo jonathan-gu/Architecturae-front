@@ -7,13 +7,17 @@ import Footer from "../components/Footer/Footer";
 import settings from "../assets/icons/settings.svg";
 import cloud from "../assets/icons/cloud-outline.svg";
 import Swal from "sweetalert2";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Home = () => {
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
+
     const navigate = useNavigate()
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
     const [filteredFiles, setFilteredFiles] = useState([])
-    const [storage, setStorage] = useState(0)
+    const [AutorizeStorage, setAuthorizeStorage] = useState(0)
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
 
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
@@ -27,6 +31,9 @@ const Home = () => {
             else {
                 if (user.email_verified_at === undefined || user.email_verified_at === null) {
                     navigate("/verifyEmail")
+                }
+                if (Number(user.available_space) === 0) {
+                    navigate("/buySpace")
                 }
             }
         }
@@ -70,7 +77,14 @@ const Home = () => {
         //     }
         // }
         // getStorage()
+        setVerificationCompleted(true);
     }, [])
+
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
 
     const handleOnFilter = (searchValue, newFile = null) => {
         if (searchValue === "") {
@@ -167,43 +181,57 @@ const Home = () => {
 
     return (
         <>
-            <Navbar more={true} />
-            <section id="section-main">
-                <div id="menu-mobile">
-                    <MenuItem icon={settings} text="Mon compte" route="/account" />
-                    <div className="spaces">
-                        <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
-                        <p className="space">0 Go / 20 Go</p>
-                    </div>
+            {isLoadingVerifPage ? (
+                <div className="loader loaderPage">
+                    <ClipLoader
+                        color="#444444"
+                        loading={isLoadingVerifPage}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
                 </div>
-                <div id="menu">
-                    <MenuItem icon={settings} text="Mon compte" route="/account" />
-                    <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
-                    <p className="space">0 Go / 20 Go</p>
-                </div>
-                <div id="main">
-                    <div id="title">
-                        <h1>Mes fichiers</h1>
-                        <div>
-                            <select onChange={handleOnSorting}>
-                                <option value="dateLess">Date (ancien)</option>
-                                <option value="dateMore">Date (récent)</option>
-                                <option value="sizeMore">Taille (Elevée)</option>
-                                <option value="sizeLess">Taille (Faible)</option>
-                            </select>
-                            <input id="search" type="text" placeholder="Rechercher" onChange={handleOnWrite}/>
+            ) : (
+                <>
+                    <Navbar more={true} />
+                    <section id="section-main">
+                        <div id="menu-mobile">
+                            <MenuItem icon={settings} text="Mon compte" route="/account" />
+                            <div className="spaces">
+                                <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
+                                <p className="space">0 Go / 20 Go</p>
+                            </div>
                         </div>
-                    </div>
-                    <form id="add-file" onSubmit={handleOnSubmit}>
-                        <input type="file" onChange={handleOnChange}/>
-                        <button type="submit">Ajouter</button>
-                    </form>
-                    {filteredFiles.map(file => (
-                        <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} role="user" />
-                    ))}
-                </div>
-            </section>
-            <Footer />
+                        <div id="menu">
+                            <MenuItem icon={settings} text="Mon compte" route="/account" />
+                            <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
+                            <p className="space">0 Go / 20 Go</p>
+                        </div>
+                        <div id="main">
+                            <div id="title">
+                                <h1>Mes fichiers</h1>
+                                <div>
+                                    <select onChange={handleOnSorting}>
+                                        <option value="dateLess">Date (ancien)</option>
+                                        <option value="dateMore">Date (récent)</option>
+                                        <option value="sizeMore">Taille (Elevée)</option>
+                                        <option value="sizeLess">Taille (Faible)</option>
+                                    </select>
+                                    <input id="search" type="text" placeholder="Rechercher" onChange={handleOnWrite}/>
+                                </div>
+                            </div>
+                            <form className="form-main" id="add-file" onSubmit={handleOnSubmit}>
+                                <input type="file" onChange={handleOnChange}/>
+                                <button type="submit">Ajouter</button>
+                            </form>
+                            {filteredFiles.map(file => (
+                                <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} role="user" />
+                            ))}
+                        </div>
+                    </section>
+                    <Footer />
+                </>
+            )}
         </>
     )
 }

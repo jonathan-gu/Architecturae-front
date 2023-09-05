@@ -11,6 +11,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 const Login = () => {
     const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -32,11 +33,19 @@ const Login = () => {
                 }
             }
         }
-        setIsLoadingVerifPage(false)
+        setVerificationCompleted(true);
     }, [])
+
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
+
+        setIsLoading(true)
 
         const formData = {
             email: email,
@@ -94,7 +103,7 @@ const Login = () => {
     return (
         <>
             {isLoadingVerifPage ? (
-                <div className="loader">
+                <div className="loader loaderPage">
                     <ClipLoader
                         color="#444444"
                         loading={isLoadingVerifPage}

@@ -30,7 +30,7 @@ form {
     margin: 10px;
 }
 
-#section-form .basic {
+#section-form .basic, #stripe .basic {
     background-color: #00A0A8;
     border: none;
     border-radius: 30px;
@@ -155,7 +155,7 @@ form {
     margin: -30px 0 0;
 }
 
-#section-main form {
+#section-main .form-main {
     margin: 20px 0;
     padding-top: 10px;
     width: 280px;
@@ -228,6 +228,11 @@ form {
     margin: 20px 10px;
     text-align: center;
     width: 120px;
+}
+
+.form-account {
+    margin: 10px 0;
+    padding-top: 10px;
 }
 
 @media screen and (min-width: 481px) {
@@ -323,11 +328,15 @@ form {
     #not {
         padding-left: 65px;
     }
+
+    #stripe {
+        margin: 80px 0 20px !important;
+    }
 }
 
 
 @media screen and (min-width: 1025px) {
-    #section-form form {
+    #section-form .form-main {
         width: 500px;
     }
 
@@ -354,7 +363,7 @@ form {
 }
 
 @media screen and (min-width: 1201px) {
-    #section-form form {
+    #section-form .form-main {
         width: 600px;
     }
 
@@ -423,7 +432,7 @@ form {
 }
 
 #stripe {
-    padding-bottom: 20px;
+    padding: 20px 0;
 }
 
 select {
@@ -436,9 +445,14 @@ select {
     padding: 3px;
 }
 
-.loader {
+.loaderPage {
     align-items: center;
     display: flex;
     height: 100vh;
+    justify-content: center;
+}
+
+.notSpace {
+    display: flex;
     justify-content: center;
 }
