@@ -8,6 +8,9 @@ import Footer from "../components/Footer/Footer";
 import cloud from "../assets/icons/cloud-outline.svg";
 
 const Account = () => {
+    const [isLoadingVerifPage, setIsLoadingVerifPage] = useState(true);
+    const [verificationCompleted, setVerificationCompleted] = useState(false)
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -39,7 +42,14 @@ const Account = () => {
                 }
             }
         }
+        setVerificationCompleted(true);
     }, [])
+
+    useEffect(() => {
+        if (verificationCompleted) {
+            setIsLoadingVerifPage(false);
+        }
+    }, [verificationCompleted]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault()

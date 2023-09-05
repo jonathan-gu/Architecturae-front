@@ -18,6 +18,7 @@ const Table = () => {
                     },
                 });
                 const responseData = await response.json();
+                console.log(responseData)
                 setUsers(responseData.users)
             } catch (error) {
                 console.error('Error during get:', error);

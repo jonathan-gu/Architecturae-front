@@ -456,3 +456,7 @@ select {
     display: flex;
     justify-content: center;
 }
+
+#add-file .loader {
+    margin-top: 10px;
+}

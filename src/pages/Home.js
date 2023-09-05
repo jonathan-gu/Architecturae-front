@@ -16,7 +16,10 @@ const Home = () => {
     const [files, setFiles] = useState([])
     const [filteredFiles, setFilteredFiles] = useState([])
     const [autorizeStorage, setAuthorizeStorage] = useState(0)
+    const [usedStorage, setUseStorage] = useState(0)
+    const [usedStorageConvert, setUseStorageConvert] = useState("")
     const [verificationCompleted, setVerificationCompleted] = useState(false)
+    const [isLoadingAddFile, setIsLoadingAddFile] = useState(false)
 
     useEffect(() => {
         var user = JSON.parse(sessionStorage.getItem("user"))
@@ -36,7 +39,7 @@ const Home = () => {
                 }
             }
         }
-        setAuthorizeStorage(Number(user.available_space) / 1024)
+        setAuthorizeStorage(Number(user.available_space))
 
         const token = sessionStorage.getItem("token")
         const getFiles = async () => {
@@ -50,32 +53,20 @@ const Home = () => {
                     },
                 });
                 const responseData = await response.json();
+                console.log(responseData)
                 if (responseData.files !== null) {
                     setFiles(responseData.files)
                     setFilteredFiles(responseData.files)
                 }
+                setUseStorage(responseData.total_size)
+                const totalSizeConvert = Number(responseData.total_size) / 1073741824
+                const roundedTotalSize = totalSizeConvert.toFixed(2);
+                setUseStorageConvert(roundedTotalSize)
             } catch (error) {
                 console.error('Error during get:', error);
             }
         }
         getFiles()
-        const getStorage = async () => {
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/api/users/storage/size`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-                const responseData = await response.json();
-                // console.log(responseData)
-            } catch (error) {
-                console.error('Error during get:', error);
-            }
-        }
-        getStorage()
         setVerificationCompleted(true);
     }, [])
 
@@ -134,6 +125,7 @@ const Home = () => {
     }
 
     const handleOnSubmit = async (e) => {
+        setIsLoadingAddFile(true)
         e.preventDefault()
         if (!selectedFile) {
             Swal.fire(
@@ -141,6 +133,7 @@ const Home = () => {
                 '',
                 'error'
             )
+            setIsLoadingAddFile(false)
             return
         }
 
@@ -160,6 +153,7 @@ const Home = () => {
                 setFiles([responseData.file, ...files]);
                 setSelectedFile("")
                 handleOnFilter(document.getElementById("search").value, responseData.file)
+                setIsLoadingAddFile(false)
                 Swal.fire(
                     'Votre fichier a bien été ajouté',
                     '',
@@ -167,6 +161,7 @@ const Home = () => {
                 )
             } else {
                 console.error('Upload failed:', response.statusText);
+                setIsLoadingAddFile(false)
                 Swal.fire(
                     'L\'ajout du fichier a échoué',
                     '',
@@ -198,13 +193,13 @@ const Home = () => {
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <div className="spaces">
                                 <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
-                                <p className="space">0 Go / {autorizeStorage} Go</p>
+                                <p className="space">{usedStorageConvert} Go / {autorizeStorage / 1024} Go</p>
                             </div>
                         </div>
                         <div id="menu">
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
-                            <p className="space">0 Go / {autorizeStorage} Go</p>
+                            <p className="space">{usedStorageConvert} Go / {autorizeStorage / 1024} Go</p>
                         </div>
                         <div id="main">
                             <div id="title">
@@ -221,7 +216,19 @@ const Home = () => {
                             </div>
                             <form className="form-main" id="add-file" onSubmit={handleOnSubmit}>
                                 <input type="file" onChange={handleOnChange}/>
-                                <button type="submit">Ajouter</button>
+                                {isLoadingAddFile ? (
+                                    <div className="loader">
+                                        <ClipLoader
+                                            color="#444444"
+                                            loading={isLoadingAddFile}
+                                            size={40}
+                                            aria-label="Loading Spinner"
+                                            data-testid="loader"
+                                        />
+                                    </div>
+                                ) : (
+                                    <button type="submit">Ajouter</button>
+                                )}
                             </form>
                             {filteredFiles.map(file => (
                                 <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} role="user" />
