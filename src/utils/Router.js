@@ -9,6 +9,7 @@ import AdminClients from "../pages/admin/Clients";
 import AdminStatistics from "../pages/admin/Statistics";
 import AdminClient from "../pages/admin/Client";
 import BuySpace from "../pages/BuySpace";
+import NotFound from "../pages/NotFound";
 
 const Router = () => {
     return (
@@ -22,6 +23,7 @@ const Router = () => {
             <Route path="/admin/clients" element={<AdminClients />} />
             <Route path="/admin/client/:id" element={<AdminClient />} />
             <Route path="/admin/statistics" element={<AdminStatistics />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }
