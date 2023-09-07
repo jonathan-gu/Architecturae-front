@@ -460,3 +460,9 @@ select {
 #add-file .loader {
     margin-top: 10px;
 }
+
+.button-simulated {
+    display: flex;
+    justify-content: center;
+    width: 150px;
+}

@@ -5,7 +5,7 @@ import download from "../../assets/icons/download.svg";
 import Swal from "sweetalert2";
 import ClipLoader from "react-spinners/ClipLoader";
 
-function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = true }) {
+function File({ name, files = null, setFiles = null, setFilteredFiles = null, id, type, isDelete = true }) {
     const [isLoadingDelete, setIsLoadingDelete] = useState(false)
     const [isLoadingDownload, setIsLoadingDownload] = useState(false)
 
@@ -21,8 +21,10 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
             });
             if (response.status === 200) {
                 const responseData = await response.json();
-                setFiles(files.filter(file => file.id !== id));
-                setFilteredFiles(files.filter(file => file.id !== id));
+                if (files !== null && setFiles != null && setFilteredFiles !== null) {
+                    setFiles(files.filter(file => file.id !== id));
+                    setFilteredFiles(files.filter(file => file.id !== id));
+                }
                 setIsLoadingDelete(false)
                 Swal.fire(
                     'Votre fichier a bien été supprimé',
@@ -47,11 +49,14 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
         setIsLoadingDownload(true)
         try {
             var url = "";
-            if (role === "user") {
+            if (type === "user") {
                 url = `http://127.0.0.1:8000/api/files/${id}`;
             }
-            else {
+            else if (type === "admin") {
                 url = `http://127.0.0.1:8000/api/admin/users/files/${id}`;
+            }
+            else {
+                url = `http://127.0.0.1:8000/api/user/invoice/${id}`
             }
             const response = await fetch(url, {
                 method: 'GET',
@@ -69,11 +74,20 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
                 a.click();
                 window.URL.revokeObjectURL(url);
                 setIsLoadingDownload(false)
-                Swal.fire(
-                    'Votre fichier a bien été téléchargé',
-                    '',
-                    'success'
-                );
+                if (type === 'invoice') {
+                    Swal.fire(
+                        'Votre facture a bien été téléchargé',
+                        '',
+                        'success'
+                    )
+                }
+                else {
+                    Swal.fire(
+                        'Votre fichier a bien été téléchargé',
+                        '',
+                        'success'
+                    );
+                }
             } else {
                 console.error('Upload failed:', response.statusText);
                 setIsLoadingDownload(false)
@@ -94,7 +108,7 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
             <p>{name}</p>
             <div className="actions">
                 
-                {isDelete && 
+                {isDelete ?
                     isLoadingDelete ? (
                         <div className="loader">
                             <ClipLoader
@@ -105,9 +119,11 @@ function File({ name, files, setFiles, setFilteredFiles, id, role, isDelete = tr
                                 data-testid="loader"
                             />
                         </div>
-                ) : (
-                    <img src={trash} onClick={handleOnDelete} />
-                )}
+                    ) : (
+                        <img src={trash} onClick={handleOnDelete} />
+                    ) :
+                        <></>
+                }
                 {isLoadingDownload ? (
                     <div className="loader">
                         <ClipLoader

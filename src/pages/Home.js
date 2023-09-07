@@ -5,7 +5,7 @@ import MenuItem from "../components/MenuItem/MenuItem";
 import File from "../components/File/File";
 import Footer from "../components/Footer/Footer";
 import settings from "../assets/icons/settings.svg";
-import cloud from "../assets/icons/cloud-outline.svg";
+import buy from "../assets/icons/buy.svg";
 import Swal from "sweetalert2";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -192,13 +192,13 @@ const Home = () => {
                         <div id="menu-mobile">
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <div className="spaces">
-                                <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
+                                <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
                                 <p className="space">{usedStorageConvert} Go / {autorizeStorage / 1024} Go</p>
                             </div>
                         </div>
                         <div id="menu">
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
-                            <MenuItem icon={cloud} text="Acheter de l'espace" route="/buySpace" />
+                            <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
                             <p className="space">{usedStorageConvert} Go / {autorizeStorage / 1024} Go</p>
                         </div>
                         <div id="main">
@@ -231,7 +231,7 @@ const Home = () => {
                                 )}
                             </form>
                             {filteredFiles.map(file => (
-                                <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} role="user" />
+                                <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} type="user" />
                             ))}
                         </div>
                     </section>

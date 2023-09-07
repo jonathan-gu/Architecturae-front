@@ -138,7 +138,7 @@ const AdminClient = () => {
                             </div>
                         </div>
                         {filteredFiles.map(file => (
-                            <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} role="admin" isDelete={false} />
+                            <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} type="admin" isDelete={false} />
                         ))}
                     </div>
                 </>

@@ -19,7 +19,7 @@ const Table = () => {
                 });
                 const responseData = await response.json();
                 console.log(responseData)
-                setUsers(responseData.users)
+                setUsers(responseData.allUsers)
             } catch (error) {
                 console.error('Error during get:', error);
             }
@@ -43,7 +43,7 @@ const Table = () => {
             </thead>
             <tbody>
                 {users.map(user => (
-                    <Row key={user.id} id={user.id} lastName={user.name} firstName={user.first_name} adressMail={user.email} phoneNumber={user.phone_number} city={user.city} address={user.address} zipCode={user.postal_code} siretNumber={user.siret_number}/>
+                    <Row key={user.user.id} id={user.user.id} lastName={user.user.name} firstName={user.user.first_name} adressMail={user.user.email} phoneNumber={user.user.phone_number} city={user.user.city} address={user.user.address} zipCode={user.user.postal_code} siretNumber={user.user.siret_number}/>
                 ))}
             </tbody>
         </table>
