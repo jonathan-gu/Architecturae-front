@@ -21,7 +21,6 @@ function File({ name, files = null, setFiles = null, setFilteredFiles = null, us
             });
             if (response.status === 200) {
                 const responseData = await response.json();
-                console.log(responseData)
                 setFiles(files.filter(file => file.id !== id));
                 setFilteredFiles(files.filter(file => file.id !== id));
                 const newUseStorage = Number(usedStorage) - responseData.file.file_size
