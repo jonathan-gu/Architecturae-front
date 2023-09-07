@@ -3,8 +3,9 @@ import { NavLink } from "react-router-dom"
 import Swal from 'sweetalert2'
 import "./row.css"
 
-const Row = ({ id, lastName, firstName, adressMail, phoneNumber, address, city, zipCode, siretNumber = "" }) => {
+const Row = ({ id, lastName, firstName, adressMail, phoneNumber, address, city, zipCode, siretNumber = "", available_space, user_total_file_size }) => {
     const handleOnClick = (e) => {
+        console.log(user_total_file_size)
         e.preventDefault()
         Swal.fire({
             title: 'Informations client',
@@ -17,7 +18,8 @@ const Row = ({ id, lastName, firstName, adressMail, phoneNumber, address, city, 
                 <div class="div-popup"><p class="p-popup">Adresse</p><p class="p-popup">${address}</p></div>
                 <div class="div-popup"><p class="p-popup">Ville</p><p class="p-popup">${city}</p></div>
                 <div class="div-popup"><p class="p-popup">Code postal</p><p class="p-popup">${zipCode}</p></div>
-                <div class="div-popup"><p class="p-popup">Numéro de Siret</p><p class="p-popup">${siretNumber}</p></div>`
+                <div class="div-popup"><p class="p-popup">Numéro de Siret</p><p class="p-popup">${siretNumber}</p></div>
+                <div class="div-popup"><p class="p-popup">Stockage</p><p class="p-popup">${(user_total_file_size / 1073741824).toFixed(2)} Go / ${available_space / 1024} Go</p></div>`
         }
             
         )

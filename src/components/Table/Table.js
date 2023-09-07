@@ -18,7 +18,7 @@ const Table = () => {
                     },
                 });
                 const responseData = await response.json();
-                console.log(responseData)
+                console.log(responseData.allUsers)
                 setUsers(responseData.allUsers)
             } catch (error) {
                 console.error('Error during get:', error);
@@ -43,7 +43,7 @@ const Table = () => {
             </thead>
             <tbody>
                 {users.map(user => (
-                    <Row key={user.user.id} id={user.user.id} lastName={user.user.name} firstName={user.user.first_name} adressMail={user.user.email} phoneNumber={user.user.phone_number} city={user.user.city} address={user.user.address} zipCode={user.user.postal_code} siretNumber={user.user.siret_number}/>
+                    <Row key={user.user.id} id={user.user.id} lastName={user.user.name} firstName={user.user.first_name} adressMail={user.user.email} phoneNumber={user.user.phone_number} city={user.user.city} address={user.user.address} zipCode={user.user.postal_code} siretNumber={user.user.siret_number} available_space={user.user.available_space} user_total_file_size={user.user_total_file_size}  />
                 ))}
             </tbody>
         </table>
