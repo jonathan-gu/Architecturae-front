@@ -15,9 +15,9 @@ const Home = () => {
     const [selectedFile, setSelectedFile] = useState("");
     const [files, setFiles] = useState([])
     const [filteredFiles, setFilteredFiles] = useState([])
-    const [autorizeStorage, setAuthorizeStorage] = useState(0)
-    const [usedStorage, setUseStorage] = useState(0)
-    const [usedStorageConvert, setUseStorageConvert] = useState("")
+    const [authorizeStorage, setAuthorizeStorage] = useState(0)
+    const [usedStorage, setUsedStorage] = useState(0)
+    const [usedStorageConvert, setUsedStorageConvert] = useState("")
     const [verificationCompleted, setVerificationCompleted] = useState(false)
     const [isLoadingAddFile, setIsLoadingAddFile] = useState(false)
 
@@ -53,15 +53,14 @@ const Home = () => {
                     },
                 });
                 const responseData = await response.json();
-                console.log(responseData)
                 if (responseData.files !== null) {
                     setFiles(responseData.files)
                     setFilteredFiles(responseData.files)
                 }
-                setUseStorage(responseData.total_size)
+                setUsedStorage(responseData.total_size)
                 const totalSizeConvert = Number(responseData.total_size) / 1073741824
                 const roundedTotalSize = totalSizeConvert.toFixed(2);
-                setUseStorageConvert(roundedTotalSize)
+                setUsedStorageConvert(roundedTotalSize)
             } catch (error) {
                 console.error('Error during get:', error);
             }
@@ -78,7 +77,7 @@ const Home = () => {
 
     const handleOnFilter = (searchValue, newFile = null) => {
         if (searchValue === "") {
-            setFilteredFiles(files)
+            setFilteredFiles([...files, newFile])
         }
         else {
             const filtered = files.filter((file) =>
@@ -136,7 +135,15 @@ const Home = () => {
             setIsLoadingAddFile(false)
             return
         }
-
+        if ((Number(usedStorage) + selectedFile.size) > authorizeStorage * 1073741824) {
+            setIsLoadingAddFile(false)
+            Swal.fire(
+                'Vous n\'avez pas asssez de stockage, faites de la place ou achetez du stockage',
+                '',
+                'error'
+            )
+            return
+        }
         const token = sessionStorage.getItem("token")
         var formData = new FormData();
         formData.append("file", selectedFile)
@@ -150,6 +157,10 @@ const Home = () => {
             });
             if (response.status === 200) {
                 const responseData = await response.json();
+                console.log(responseData)
+                const newUseStorage = Number(usedStorage) + responseData.file.file_size
+                setUsedStorage(newUseStorage)
+                setUsedStorageConvert((newUseStorage / 1073741824).toFixed(2))
                 setFiles([responseData.file, ...files]);
                 setSelectedFile("")
                 handleOnFilter(document.getElementById("search").value, responseData.file)
@@ -193,13 +204,13 @@ const Home = () => {
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <div className="spaces">
                                 <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
-                                <p className="space">{usedStorageConvert} Go / {autorizeStorage / 1024} Go</p>
+                                <p className="space">{usedStorageConvert} Go / {authorizeStorage / 1024} Go</p>
                             </div>
                         </div>
                         <div id="menu">
                             <MenuItem icon={settings} text="Mon compte" route="/account" />
                             <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
-                            <p className="space">{usedStorageConvert} Go / {autorizeStorage / 1024} Go</p>
+                            <p className="space">{usedStorageConvert} Go / {authorizeStorage / 1024} Go</p>
                         </div>
                         <div id="main">
                             <div id="title">
@@ -231,7 +242,7 @@ const Home = () => {
                                 )}
                             </form>
                             {filteredFiles.map(file => (
-                                <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} type="user" />
+                                <File key={file.id} id={file.id} name={file.file_name} files={files} setFiles={setFiles} setFilteredFiles={setFilteredFiles} usedStorage={usedStorage} setUsedStorage={setUsedStorage} setUsedStorageConvert={setUsedStorageConvert} type="user" />
                             ))}
                         </div>
                     </section>

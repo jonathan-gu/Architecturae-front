@@ -5,7 +5,7 @@ import download from "../../assets/icons/download.svg";
 import Swal from "sweetalert2";
 import ClipLoader from "react-spinners/ClipLoader";
 
-function File({ name, files = null, setFiles = null, setFilteredFiles = null, id, type, isDelete = true }) {
+function File({ name, files = null, setFiles = null, setFilteredFiles = null, usedStorage = null, setUsedStorage = null, setUsedStorageConvert = null, id, type, isDelete = true }) {
     const [isLoadingDelete, setIsLoadingDelete] = useState(false)
     const [isLoadingDownload, setIsLoadingDownload] = useState(false)
 
@@ -21,10 +21,12 @@ function File({ name, files = null, setFiles = null, setFilteredFiles = null, id
             });
             if (response.status === 200) {
                 const responseData = await response.json();
-                if (files !== null && setFiles != null && setFilteredFiles !== null) {
-                    setFiles(files.filter(file => file.id !== id));
-                    setFilteredFiles(files.filter(file => file.id !== id));
-                }
+                console.log(responseData)
+                setFiles(files.filter(file => file.id !== id));
+                setFilteredFiles(files.filter(file => file.id !== id));
+                const newUseStorage = Number(usedStorage) - responseData.file.file_size
+                setUsedStorage(newUseStorage)
+                setUsedStorageConvert((newUseStorage / 1073741824).toFixed(2))
                 setIsLoadingDelete(false)
                 Swal.fire(
                     'Votre fichier a bien été supprimé',

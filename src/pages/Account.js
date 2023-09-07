@@ -49,7 +49,6 @@ const Account = () => {
         }
 
         const token = sessionStorage.getItem("token")
-        console.log(user)
         const getInvoices = async () => {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/user/invoices', {
