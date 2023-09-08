@@ -77,7 +77,12 @@ const Home = () => {
 
     const handleOnFilter = (searchValue, newFile = null) => {
         if (searchValue === "") {
-            setFilteredFiles([...files, newFile])
+            if (newFile !== null) {
+                setFilteredFiles([...files, newFile])
+            }
+            else {
+                setFilteredFiles([...files])
+            }
         }
         else {
             const filtered = files.filter((file) =>
