@@ -186,16 +186,16 @@ const Account = () => {
                     <Navbar more="true" />
                     <section id="section-main">
                         <div id="menu-mobile">
-                            <MenuItem icon={cloud} text="Mon espace" route="/home" />
                             {user.available_space > 0 &&
-                                <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
+                                <MenuItem icon={cloud} text="Mon espace" route="/home" />
                             }
+                            <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
                         </div>
                         <div id="menu">
-                            <MenuItem icon={cloud} text="Mon espace" route="/home" />
                             {user.available_space > 0 &&
-                                <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
+                                <MenuItem icon={cloud} text="Mon espace" route="/home" />
                             }
+                            <MenuItem icon={buy} text="Acheter de l'espace" route="/buySpace" />
                         </div>
                         <div id="main">
                             <h1 id="first-title">Mon Profil</h1>
